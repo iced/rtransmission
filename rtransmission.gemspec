@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.summary = "Ruby Transmission Bindings"
   s.description = "RTransmission allows you to interract with Transmission daemon"
-  s.files = ["COPYING", "README", "rtransmission.gemspec"] + Dir.glob('lib/**/*')
+  s.files = ["COPYING", "README.md", "rtransmission.gemspec"] + Dir.glob('lib/**/*')
   s.require_path = "lib"
   s.has_rdoc = false
 end
