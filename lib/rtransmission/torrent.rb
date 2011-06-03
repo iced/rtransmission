@@ -44,7 +44,7 @@ module RTransmission
 
     def self.define_field(name, rpc_name, args = {})
       self.send :define_method, name do
-        request = RTransmission::Request.new('torrent-get', {'fields' => [rpc_name]}, 'Torrent.' + name.to_s) do |arguments|
+        request = RTransmission::Request.new('torrent-get', {'ids' => @id, 'fields' => [rpc_name]}, 'Torrent.' + name.to_s) do |arguments|
           result = arguments['torrents'][0][rpc_name]
           if args[:type]
             type = args[:type]
