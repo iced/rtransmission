@@ -4,9 +4,10 @@
 
 require 'rtransmission/version'
 require 'rtransmission/exception'
-require 'rtransmission/client'
 require 'rtransmission/request'
 require 'rtransmission/response'
 require 'rtransmission/field'
 require 'rtransmission/fields'
+require 'rtransmission/session'
 require 'rtransmission/torrent'
+require 'rtransmission/client'

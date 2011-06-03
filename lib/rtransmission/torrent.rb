@@ -6,6 +6,7 @@ require 'base64'
 
 # FIXME: files-wanted/unwanted & prioriry-high/low/normal for both add and new torrents
 # FIXME: add/remove/replace trackers
+# FIXME: location set support
 module RTransmission
   class Torrent
     attr_reader :id
@@ -22,7 +23,7 @@ module RTransmission
       pargs['download-dir'] = args[:download_dir] if args[:download_dir]
       pargs['paused'] = args[:paused] if args[:paused]
       pargs['peer-limit'] = args[:peer_limit] if args[:peer_limit]
-      pargs['bandwithPriority'] = args[:bandwith_priority] if args[:bandwith_priority] # FIXME: use field here
+      pargs['bandwidthPriority'] = RTransmission::Fields::Priority.map(args[:bandwidth_priority]) if args[:bandwidth_priority]
 
       request = RTransmission::Request.new('torrent-add', pargs, 'Torrent#add') do |arguments|
         RTransmission::Torrent.new(client, arguments['torrent-added']['id'])

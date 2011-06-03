@@ -14,6 +14,10 @@ module RTransmission
 
     attr_reader :session_id
 
+    def session
+      @session ||= RTransmission::Session.new(self)
+    end
+
     def initialize(args = {}, &block)
       @host = args[:host] || 'localhost'
       @port = args[:port] || 9091

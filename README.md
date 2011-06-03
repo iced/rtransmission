@@ -6,9 +6,11 @@ Ruby Transmission Bindings
 Basic Usage
 -----------
 
-    requre 'rtransmission'
+    require 'rtransmission'
 
     RTransmission::Client.new(:user => 'foo', :password => 'bar') do |client|
+      client.session.speed_limit_down_enabled = false
+
       url = 'http://torrents.gentoo.org/torrents/livedvd-x86-amd64-32ul-11.1.torrent'
       torrent = RTransmission::Torrent.add(client, :url => url)
       torrent = RTransmission::Torrent.list(client)[0]
