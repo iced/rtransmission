@@ -14,18 +14,21 @@ module RTransmission
 
     attr_reader :session_id
 
-    def session
-      @session ||= RTransmission::Session.new(self)
+    def self.session(args = {}, &block)
+      client = RTransmission::Client.new(args)
+      session = RTransmission::Session.new(client)
+
+      block.call(session) if block
+
+      session
     end
 
-    def initialize(args = {}, &block)
+    def initialize(args = {})
       @host = args[:host] || 'localhost'
       @port = args[:port] || 9091
       @path = args[:path] || '/transmission/rpc'
       @user = args[:user] || nil
       @password = args[:password] || nil
-
-      block.call(self) if block
     end
 
     def call(request)

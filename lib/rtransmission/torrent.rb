@@ -11,7 +11,7 @@ module RTransmission
   class Torrent
     attr_reader :id
 
-    def self.add(client, args = {})
+    def self.add(session, args = {})
       pargs = {}
 
       raise RTransmission::Exception.new('Torrent#add: only one of remote_file, url, or torrent must be specified') if (args.keys & [:remote_file, :url, :torrent]).count != 1
@@ -26,23 +26,23 @@ module RTransmission
       pargs['bandwidthPriority'] = RTransmission::Fields::Priority.map(args[:bandwidth_priority]) if args[:bandwidth_priority]
 
       request = RTransmission::Request.new('torrent-add', pargs, 'Torrent#add') do |arguments|
-        RTransmission::Torrent.new(client, arguments['torrent-added']['id'])
+        RTransmission::Torrent.new(session, arguments['torrent-added']['id'])
       end
 
-      client.call(request)
+      session.client.call(request)
     end
 
-    def self.list(client)
+    def self.list(session)
       request = RTransmission::Request.new('torrent-get', {'fields' => ['id']}, 'Torrent#list') do |arguments|
         torrents = []
         arguments['torrents'].each do |torrent|
-          torrents << RTransmission::Torrent.new(client, torrent['id'])
+          torrents << RTransmission::Torrent.new(session, torrent['id'])
         end
 
         torrents
       end
 
-      client.call(request)
+      session.client.call(request)
     end
 
     def self.define_field(name, rpc_name, args = {})
@@ -62,7 +62,7 @@ module RTransmission
           result 
         end
 
-        @client.call(request)
+        @session.client.call(request)
       end
 
       if args[:writeable] == true
@@ -82,7 +82,7 @@ module RTransmission
             value
           end
 
-          @client.call(request)
+          @session.client.call(request)
         end
       end
     end
@@ -152,25 +152,25 @@ module RTransmission
     define_field :webseeds, 'webseeds' # FIXME: add type
     define_field :webseeds_sending_to_us, 'webseedsSendingToUs'
 
-    def initialize(client, id)
-      @client = client
+    def initialize(session, id)
+      @session = session
       @id = id
     end
 
     def start
-      @client.call(RTransmission::Request.new('torrent-start', {'ids' => @id}, 'Torrent.start'))
+      @session.client.call(RTransmission::Request.new('torrent-start', {'ids' => @id}, 'Torrent.start'))
     end
 
     def stop
-      @client.call(RTransmission::Request.new('torrent-stop', {'ids' => @id}, 'Torrent.stop'))
+      @session.client.call(RTransmission::Request.new('torrent-stop', {'ids' => @id}, 'Torrent.stop'))
     end
 
     def verify
-      @client.call(RTransmission::Request.new('torrent-verify', {'ids' => @id}, 'Torrent.verify'))
+      @session.client.call(RTransmission::Request.new('torrent-verify', {'ids' => @id}, 'Torrent.verify'))
     end
 
     def reannounce
-      @client.call(RTransmission::Request.new('torrent-reannounce', {'ids' => @id}, 'Torrent.reannounce'))
+      @session.client.call(RTransmission::Request.new('torrent-reannounce', {'ids' => @id}, 'Torrent.reannounce'))
     end
 
     def remove(args = {})
@@ -178,7 +178,7 @@ module RTransmission
 
       pargs['delete-local-data'] = args[:delete_local_data] if args[:delete_local_data]
 
-      @client.call(RTransmission::Request.new('torrent-remove', {'ids' => @id}.merge(pargs), 'Torrent.remove'))
+      @session.client.call(RTransmission::Request.new('torrent-remove', {'ids' => @id}.merge(pargs), 'Torrent.remove'))
     end
 
     def move(args = {})
@@ -187,7 +187,7 @@ module RTransmission
       pargs['location'] = args[:location] if args[:location]
       pargs['move'] = args[:move] if args[:move]
 
-      @client.call(RTransmission::Request.new('torrent-set-location', {'ids' => @id}.merge(pargs), 'Torrent.move'))
+      @session.client.call(RTransmission::Request.new('torrent-set-location', {'ids' => @id}.merge(pargs), 'Torrent.move'))
     end
   end
 end

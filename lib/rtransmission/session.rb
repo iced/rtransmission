@@ -4,6 +4,8 @@
 
 module RTransmission
   class Session
+    attr_reader :client
+
     def self.define_field(name, rpc_name, args = {})
       self.send :define_method, name.to_s do
         request = RTransmission::Request.new('session-get', {}, 'Session.' + name.to_s) do |arguments|
