@@ -111,5 +111,17 @@ module RTransmission
 
       @client.call(request)
     end
+
+    def port_test
+      request = RTransmission::Request.new('port-test', {}, 'Session.port_test') do |arguments|
+        arguments['port-is-open']
+      end
+
+      @client.call(request)
+    end
+
+    def shutdown
+      @client.call(RTransmission::Request.new('session-close', {}, 'Session.shutdown'))
+    end
   end
 end
