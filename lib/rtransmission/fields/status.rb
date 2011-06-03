@@ -1,10 +1,11 @@
 module RTransmission
   module Fields
     class Status
+      MAP = {1 => :check_wait, 2 => :check, 4 => :download, 8 => :seed, 16 => :stopped}
+
       def self.unmap(value)
-        map = {1 => :check_wait, 2 => :check, 4 => :download, 8 => :seed, 16 => :stopped}
         result = []
-        map.each do |mask, status|
+        MAP.each do |mask, status|
           result << status if mask & value != 0
         end
 

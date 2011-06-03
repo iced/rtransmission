@@ -1,7 +1,7 @@
+# FIXME: add types where needed
 module RTransmission
   module Fields
     class TrackerStat < RTransmission::Field
-      # FIXME: add types where needed
       define_attribute :id, 'id'
       define_attribute :announce, 'announce'
       define_attribute :announce_state, 'announceState'

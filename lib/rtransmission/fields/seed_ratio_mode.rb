@@ -1,8 +1,14 @@
 module RTransmission
   module Fields
     class SeedRatioMode
+      MAP = {0 => :global, 1 => :single, 2 => :unlimited}
+
       def self.unmap(value)
-        [:global, :signle, :unlimited][value]
+        MAP[value]
+      end
+
+      def self.map(value)
+        MAP.key(value)
       end
     end
   end
