@@ -93,5 +93,13 @@ module RTransmission
     def initialize(client)
       @client = client
     end
+
+    def stats
+      request = RTransmission::Request.new('session-stats', {}, 'Session.stats') do |arguments|
+        RTransmission::Fields::Stats.unmap(arguments)
+      end
+
+      @client.call(request)
+    end
   end
 end
