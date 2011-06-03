@@ -1,5 +1,5 @@
-RTransmissiond
---------------
+RTransmission
+-------------
 
 Ruby Transmission Bindings
 
