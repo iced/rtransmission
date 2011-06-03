@@ -19,8 +19,6 @@ Basic Usage
       torrent.upload_limited = false
     end
 
-Copyright (c) 2011, Andrew Kirilenko <andrew.kirilenko@gmail.com>
-
-All rights reserved.
-
+Copyright (c) 2011, Andrew Kirilenko <andrew.kirilenko@gmail.com>  
+All rights reserved.  
 Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
