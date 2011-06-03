@@ -101,5 +101,13 @@ module RTransmission
 
       @client.call(request)
     end
+
+    def blocklist_update
+      request = RTransmission::Request.new('blocklist-update', {}, 'Session.blocklist_update') do |arguments|
+        arguments['blocklist-size']
+      end
+
+      @client.call(request)
+    end
   end
 end
