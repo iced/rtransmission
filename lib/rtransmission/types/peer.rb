@@ -18,7 +18,7 @@ module RTransmission
       attribute :peer_choked?, 'peerIsChoked'
       attribute :peer_interested?, 'peerIsInterested'
       attribute :port, 'port'
-      attribute :progress, 'progress', :type => RTransmission::Types::Percent
+      attribute :progress, 'progress', :type => :percent
       attribute :rate_to_client, 'rateToClient'
       attribute :rate_to_peer, 'rateToPeer'
 

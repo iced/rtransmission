@@ -33,7 +33,7 @@ module RTransmission
     attribute :alt_speed_time_begin, 'alt-speed-time-begin', :writeable => true
     attribute :alt_speed_time_enabled?, 'alt-speed-time-enabled', :writeable => true
     attribute :alt_speed_time_end, 'alt-speed-time-end', :writeable => true
-    attribute :alt_speed_time_day, 'alt-speed-time-day', :type => RTransmission::Types::Day, :writeable => true
+    attribute :alt_speed_time_day, 'alt-speed-time-day', :type => :day, :writeable => true
     attribute :alt_speed_up, 'alt-speed-up', :writeable => true
     attribute :blocklist_url, 'blocklist-url', :writeable => true
     attribute :blocklist_enabled?, 'blocklist-enabled', :writeable => true
@@ -43,7 +43,7 @@ module RTransmission
     attribute :download_dir, 'download-dir', :writeable => true
     attribute :download_dir_free_space, 'download-dir-free-space'
     attribute :dht_enabled?, 'dht-enabled', :writeable => true
-    attribute :encryption, 'encryption', :type => RTransmission::Types::Encryption, :writeable => true
+    attribute :encryption, 'encryption', :type => :encryption, :writeable => true
     attribute :idle_seeding_limit, 'idle-seeding-limit', :writeable => true
     attribute :idle_seeding_limit_enabled?, 'idle-seeding-limit-enabled', :writeable => true
     attribute :incomplete_dir, 'incomplete-dir', :writeable => true
@@ -60,7 +60,7 @@ module RTransmission
     attribute :rpc_version_minimum, 'rpc-version-minimum'
     attribute :script_torrent_done_filename, 'script-torrent-done-filename', :writeable => true
     attribute :script_torrent_done_enabled?, 'script-torrent-done-enabled', :writeable => true
-    attribute :seed_ratio_limit, 'seedRatioLimit', :type => RTransmission::Types::Percent, :writeable => true
+    attribute :seed_ratio_limit, 'seedRatioLimit', :type => :percent, :writeable => true
     attribute :seed_ratio_limited?, 'seedRatioLimited', :writeable => true
     attribute :speed_limit_down, 'speed-limit-down', :writeable => true
     attribute :speed_limit_down_enabled?, 'speed-limit-down-enabled', :writeable => true

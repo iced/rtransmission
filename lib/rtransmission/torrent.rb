@@ -67,24 +67,24 @@ module RTransmission
       end
     end
 
-    attribute :activity_date, 'activityDate', :type => RTransmission::Types::Time
-    attribute :added_date, 'addedDate', :type => RTransmission::Types::Time
-    attribute :bandwidth_priority, 'bandwidthPriority', :type => RTransmission::Types::Priority, :writeable => true
+    attribute :activity_date, 'activityDate', :type => :time
+    attribute :added_date, 'addedDate', :type => :time
+    attribute :bandwidth_priority, 'bandwidthPriority', :type => :priority, :writeable => true
     attribute :comment, 'comment'
     attribute :corrupt_ever, 'corruptEver'
     attribute :creator, 'creator'
-    attribute :date_created, 'dateCreated', :type => RTransmission::Types::Time
+    attribute :date_created, 'dateCreated', :type => :time
     attribute :desired_available, 'desiredAvailable'
-    attribute :done_date, 'doneDate', :type => RTransmission::Types::Time
+    attribute :done_date, 'doneDate', :type => :time
     attribute :download_dir, 'downloadDir'
     attribute :downloaded_ever, 'downloadedEver'
     attribute :download_limit, 'downloadLimit', :writeable => true
     attribute :download_limited?, 'downloadLimited', :writeable => true
-    attribute :error, 'error', :type => RTransmission::Types::Error
+    attribute :error, 'error', :type => :error
     attribute :error_string, 'errorString'
-    attribute :eta, 'eta', :type => RTransmission::Types::ETA
-    attribute :files, 'files', :type => [RTransmission::Types::File]
-    attribute :file_stats, 'fileStats', :type => [RTransmission::Types::FileStat]
+    attribute :eta, 'eta', :type => :eta
+    attribute :files, 'files', :type => [:file]
+    attribute :file_stats, 'fileStats', :type => [:file_stat]
     attribute :hash_string, 'hashString'
     attribute :have_unchecked, 'haveUnchecked'
     attribute :have_valid, 'haveValid'
@@ -98,36 +98,36 @@ module RTransmission
     attribute :metadata_percent_complete, 'metadataPercentComplete'
     attribute :name, 'name'
     attribute :peer_limit, 'peer-limit', :writeable => true
-    attribute :peers, 'peers', :type => [RTransmission::Types::Peer]
+    attribute :peers, 'peers', :type => [:peer]
     attribute :peers_connected, 'peersConnected'
-    attribute :peers_from, 'peersFrom', :type => RTransmission::Types::PeersFrom
+    attribute :peers_from, 'peersFrom', :type => :peers_from
     attribute :peers_getting_from_us, 'peersGettingFromUs'
     attribute :peers_sending_to_us, 'peersSendingToUs'
-    attribute :percent_done, 'percentDone', :type => RTransmission::Types::Percent
-    attribute :pieces, 'pieces', :type => RTransmission::Types::Pieces
+    attribute :percent_done, 'percentDone', :type => :percent
+    attribute :pieces, 'pieces', :type => :pieces
     attribute :piece_count, 'pieceCount'
     attribute :piece_size, 'pieceSize'
-    attribute :priorities, 'priorities', :type => [RTransmission::Types::Priority]
+    attribute :priorities, 'priorities', :type => [:priority]
     attribute :rate_download, 'rateDownload'
     attribute :rate_upload, 'rateUpload'
-    attribute :recheck_progress, 'recheckProgress', :type => RTransmission::Types::Percent
+    attribute :recheck_progress, 'recheckProgress', :type => :percent
     attribute :seconds_downloading, 'secondsDownloading'
     attribute :seconds_seeding, 'secondsSeeding'
     attribute :seed_idle_limit, 'seedIdleLimit', :writeable => true
-    attribute :seed_idle_mode, 'seedIdleMode', :type => RTransmission::Types::SeedIdleMode, :writeable => true
-    attribute :seed_ratio_limit, 'seedRatioLimit', :type => RTransmission::Types::Percent, :writeable => true
-    attribute :seed_ratio_mode, 'seedRatioMode', :type => RTransmission::Types::SeedRatioMode, :writeable => true
+    attribute :seed_idle_mode, 'seedIdleMode', :type => :seed_idle_mode, :writeable => true
+    attribute :seed_ratio_limit, 'seedRatioLimit', :type => :percent, :writeable => true
+    attribute :seed_ratio_mode, 'seedRatioMode', :type => :seed_ratio_mode, :writeable => true
     attribute :size_when_done, 'sizeWhenDone'
-    attribute :start_date, 'startDate', :type => RTransmission::Types::Time
-    attribute :status, 'status', :type => RTransmission::Types::Status
-    attribute :trackers, 'trackers', :type => [RTransmission::Types::Tracker]
-    attribute :tracker_stats, 'trackerStats', :type => [RTransmission::Types::TrackerStat]
+    attribute :start_date, 'startDate', :type => :time
+    attribute :status, 'status', :type => :status
+    attribute :trackers, 'trackers', :type => [:tracker]
+    attribute :tracker_stats, 'trackerStats', :type => [:tracker_stat]
     attribute :total_size, 'totalSize'
     attribute :torrent_file, 'torrentFile'
     attribute :uploaded_ever, 'uploadedEver'
     attribute :upload_limit, 'uploadLimit', :writeable => true
     attribute :upload_limited?, 'uploadLimited', :writeable => true
-    attribute :upload_ratio, 'uploadRatio', :type => RTransmission::Types::Percent
+    attribute :upload_ratio, 'uploadRatio', :type => :percent
     attribute :wanted, 'wanted'
     attribute :webseeds, 'webseeds' # FIXME: add type
     attribute :webseeds_sending_to_us, 'webseedsSendingToUs'

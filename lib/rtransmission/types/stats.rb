@@ -10,8 +10,8 @@ module RTransmission
       attribute :paused_torrent_count, 'pausedTorrentCount'
       attribute :torrent_count, 'torrentCount'
       attribute :upload_speed, 'uploadSpeed'
-      attribute :cumulative_stats, 'cumulative-stats', :type => RTransmission::Types::TrafficStats
-      attribute :current_stats, 'current-stats', :type => RTransmission::Types::TrafficStats
+      attribute :cumulative_stats, 'cumulative-stats', :type => :traffic_stats
+      attribute :current_stats, 'current-stats', :type => :traffic_stats
 
       def self.unmap(value)
         RTransmission::Types::Stats.new(value)

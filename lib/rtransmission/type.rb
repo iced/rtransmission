@@ -4,12 +4,21 @@
 
 module RTransmission
   class Type
+    def self.type_to_class(type)
+      type = type.to_s
+      type = '_' + type
+      type.gsub!(/_./) { |x| x[1].upcase }
+
+      RTransmission::Types.const_get(type)
+    end
+
     def self.unmap(value, type)
       if type
         if type.class == Array
-          type = type[0]
+          type = RTransmission::Type.type_to_class(type[0])
           value.map! { |v| type.unmap(v) }
         else
+          type = RTransmission::Type.type_to_class(type)
           value = type.unmap(value)
         end
       end
@@ -20,9 +29,10 @@ module RTransmission
     def self.map(value, type)
       if type
         if type.class == Array
-          type = type[0]
+          type = RTransmission::Type.type_to_class(type[0])
           value.map! { |v| type.map(v) }
         else
+          type = RTransmission::Type.type_to_class(type)
           value = type.map(value)
         end
       end

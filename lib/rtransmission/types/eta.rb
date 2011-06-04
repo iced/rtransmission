@@ -4,7 +4,7 @@
 
 module RTransmission
   module Types
-    class ETA < RTransmission::Type
+    class Eta < RTransmission::Type
       MAP = {-1 => :not_available, -2 => :unknown}
 
       def self.unmap(value)
