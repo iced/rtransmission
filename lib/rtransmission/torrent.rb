@@ -17,7 +17,7 @@ module RTransmission
       raise RTransmission::Exception.new('Torrent#add: only one of remote_file, url, or torrent must be specified') if (args.keys & [:remote_file, :url, :torrent]).count != 1
       pargs['filename'] = args[:remote_file] if args[:remote_file]
       pargs['filename'] = args[:url] if args[:url]
-      pargs['metainfo'] = Base64::encode(args[:torrent]) if args[:torrent]
+      pargs['metainfo'] = Base64::encode64(args[:torrent]) if args[:torrent]
 
       pargs['cookies'] = args[:cookies] if args[:cookies]
       pargs['download-dir'] = args[:download_dir] if args[:download_dir]
@@ -106,7 +106,6 @@ module RTransmission
     attribute 'peersGettingFromUs'
     attribute 'peersSendingToUs'
     attribute 'percentDone'
-    attribute 'pieces', :type => :pieces
     attribute 'pieceCount'
     attribute 'pieceSize'
     attribute 'priorities', :type => [:priority]
@@ -170,6 +169,15 @@ module RTransmission
       pargs['move'] = args[:move] if args[:move]
 
       @session.client.call(RTransmission::Request.new('torrent-set-location', {'ids' => @id}.merge(pargs), 'Torrent.move'))
+    end
+
+    def pieces
+      request = RTransmission::Request.new('torrent-get', {'ids' => @id, 'fields' => ['pieces']}, 'Torrent.pieces') do |arguments|
+        pieces = arguments['torrents'][0]['pieces']
+        Base64::decode64(pieces).unpack('B*')[0][0 .. piece_count - 1]
+      end
+
+      @session.client.call(request)
     end
   end
 end
