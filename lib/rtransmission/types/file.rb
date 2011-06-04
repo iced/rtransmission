@@ -3,14 +3,14 @@
 # Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
 
 module RTransmission
-  module Fields
-    class File < RTransmission::Field
-      define_attribute :name, 'name'
-      define_attribute :length, 'length'
-      define_attribute :bytes_completed, 'bytesCompleted'
+  module Types
+    class File < RTransmission::Type
+      attribute :name, 'name'
+      attribute :length, 'length'
+      attribute :bytes_completed, 'bytesCompleted'
 
       def self.unmap(value)
-        RTransmission::Fields::File.new(value)
+        RTransmission::Types::File.new(value)
       end
     end
   end

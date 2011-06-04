@@ -45,21 +45,11 @@ module RTransmission
       session.client.call(request)
     end
 
-    def self.define_field(name, rpc_name, args = {})
+    def self.attribute(name, rpc_name, args = {})
       self.send :define_method, name.to_s do
         request = RTransmission::Request.new('torrent-get', {'ids' => @id, 'fields' => [rpc_name]}, 'Torrent.' + name.to_s) do |arguments|
-          result = arguments['torrents'][0][rpc_name]
-          if args[:type]
-            type = args[:type]
-            if type.class == Array
-              type = type[0]
-              result.map! { |r| type.unmap(r) }
-            else
-              result = type.unmap(result)
-            end
-          end
-
-          result 
+          value = arguments['torrents'][0][rpc_name]
+          RTransmission::Type.unmap(value, args[:type])
         end
 
         @session.client.call(request)
@@ -67,17 +57,7 @@ module RTransmission
 
       if args[:writeable] == true
         self.send :define_method, name.to_s.gsub('?', '') + '=' do |value|
-          rpc_value = value
-          if args[:type]
-            type = args[:type]
-            if type.class == Array
-              type = type[0]
-              rpc_value.map! { |r| type.map(r) }
-            else
-              rpc_value = type.map(rpc_value)
-            end
-          end
-
+          rpc_value = RTransmission::Type.map(value, args[:type])
           request = RTransmission::Request.new('torrent-set', {'ids' => @id, rpc_name => rpc_value}, 'Torrent.' + name.to_s + '=') do
             value
           end
@@ -87,70 +67,70 @@ module RTransmission
       end
     end
 
-    define_field :activity_date, 'activityDate', :type => RTransmission::Fields::Time
-    define_field :added_date, 'addedDate', :type => RTransmission::Fields::Time
-    define_field :bandwidth_priority, 'bandwidthPriority', :type => RTransmission::Fields::Priority, :writeable => true
-    define_field :comment, 'comment'
-    define_field :corrupt_ever, 'corruptEver'
-    define_field :creator, 'creator'
-    define_field :date_created, 'dateCreated', :type => RTransmission::Fields::Time
-    define_field :desired_available, 'desiredAvailable'
-    define_field :done_date, 'doneDate', :type => RTransmission::Fields::Time
-    define_field :download_dir, 'downloadDir'
-    define_field :downloaded_ever, 'downloadedEver'
-    define_field :download_limit, 'downloadLimit', :writeable => true
-    define_field :download_limited?, 'downloadLimited', :writeable => true
-    define_field :error, 'error', :type => RTransmission::Fields::Error
-    define_field :error_string, 'errorString'
-    define_field :eta, 'eta', :type => RTransmission::Fields::ETA
-    define_field :files, 'files', :type => [RTransmission::Fields::File]
-    define_field :file_stats, 'fileStats', :type => [RTransmission::Fields::FileStat]
-    define_field :hash_string, 'hashString'
-    define_field :have_unchecked, 'haveUnchecked'
-    define_field :have_valid, 'haveValid'
-    define_field :honors_session_limits?, 'honorsSessionLimits', :writeable => true
-    define_field :finished?, 'isFinished'
-    define_field :private?, 'isPrivate'
-    define_field :left_until_done, 'leftUntilDone'
-    define_field :magnet_link, 'magnetLink'
-    define_field :manual_announce_time, 'manualAnnounceTime' # FIXME: add type
-    define_field :max_connected_peers, 'maxConnectedPeers'
-    define_field :metadata_percent_complete, 'metadataPercentComplete'
-    define_field :name, 'name'
-    define_field :peer_limit, 'peer-limit', :writeable => true
-    define_field :peers, 'peers', :type => [RTransmission::Fields::Peer]
-    define_field :peers_connected, 'peersConnected'
-    define_field :peers_from, 'peersFrom', :type => RTransmission::Fields::PeersFrom
-    define_field :peers_getting_from_us, 'peersGettingFromUs'
-    define_field :peers_sending_to_us, 'peersSendingToUs'
-    define_field :percent_done, 'percentDone', :type => RTransmission::Fields::Percent
-    define_field :pieces, 'pieces', :type => RTransmission::Fields::Pieces
-    define_field :piece_count, 'pieceCount'
-    define_field :piece_size, 'pieceSize'
-    define_field :priorities, 'priorities', :type => [RTransmission::Fields::Priority]
-    define_field :rate_download, 'rateDownload'
-    define_field :rate_upload, 'rateUpload'
-    define_field :recheck_progress, 'recheckProgress', :type => RTransmission::Fields::Percent
-    define_field :seconds_downloading, 'secondsDownloading'
-    define_field :seconds_seeding, 'secondsSeeding'
-    define_field :seed_idle_limit, 'seedIdleLimit', :writeable => true
-    define_field :seed_idle_mode, 'seedIdleMode', :type => RTransmission::Fields::SeedIdleMode, :writeable => true
-    define_field :seed_ratio_limit, 'seedRatioLimit', :type => RTransmission::Fields::Percent, :writeable => true
-    define_field :seed_ratio_mode, 'seedRatioMode', :type => RTransmission::Fields::SeedRatioMode, :writeable => true
-    define_field :size_when_done, 'sizeWhenDone'
-    define_field :start_date, 'startDate', :type => RTransmission::Fields::Time
-    define_field :status, 'status', :type => RTransmission::Fields::Status
-    define_field :trackers, 'trackers', :type => [RTransmission::Fields::Tracker]
-    define_field :tracker_stats, 'trackerStats', :type => [RTransmission::Fields::TrackerStat]
-    define_field :total_size, 'totalSize'
-    define_field :torrent_file, 'torrentFile'
-    define_field :uploaded_ever, 'uploadedEver'
-    define_field :upload_limit, 'uploadLimit', :writeable => true
-    define_field :upload_limited?, 'uploadLimited', :writeable => true
-    define_field :upload_ratio, 'uploadRatio', :type => RTransmission::Fields::Percent
-    define_field :wanted, 'wanted'
-    define_field :webseeds, 'webseeds' # FIXME: add type
-    define_field :webseeds_sending_to_us, 'webseedsSendingToUs'
+    attribute :activity_date, 'activityDate', :type => RTransmission::Types::Time
+    attribute :added_date, 'addedDate', :type => RTransmission::Types::Time
+    attribute :bandwidth_priority, 'bandwidthPriority', :type => RTransmission::Types::Priority, :writeable => true
+    attribute :comment, 'comment'
+    attribute :corrupt_ever, 'corruptEver'
+    attribute :creator, 'creator'
+    attribute :date_created, 'dateCreated', :type => RTransmission::Types::Time
+    attribute :desired_available, 'desiredAvailable'
+    attribute :done_date, 'doneDate', :type => RTransmission::Types::Time
+    attribute :download_dir, 'downloadDir'
+    attribute :downloaded_ever, 'downloadedEver'
+    attribute :download_limit, 'downloadLimit', :writeable => true
+    attribute :download_limited?, 'downloadLimited', :writeable => true
+    attribute :error, 'error', :type => RTransmission::Types::Error
+    attribute :error_string, 'errorString'
+    attribute :eta, 'eta', :type => RTransmission::Types::ETA
+    attribute :files, 'files', :type => [RTransmission::Types::File]
+    attribute :file_stats, 'fileStats', :type => [RTransmission::Types::FileStat]
+    attribute :hash_string, 'hashString'
+    attribute :have_unchecked, 'haveUnchecked'
+    attribute :have_valid, 'haveValid'
+    attribute :honors_session_limits?, 'honorsSessionLimits', :writeable => true
+    attribute :finished?, 'isFinished'
+    attribute :private?, 'isPrivate'
+    attribute :left_until_done, 'leftUntilDone'
+    attribute :magnet_link, 'magnetLink'
+    attribute :manual_announce_time, 'manualAnnounceTime' # FIXME: add type
+    attribute :max_connected_peers, 'maxConnectedPeers'
+    attribute :metadata_percent_complete, 'metadataPercentComplete'
+    attribute :name, 'name'
+    attribute :peer_limit, 'peer-limit', :writeable => true
+    attribute :peers, 'peers', :type => [RTransmission::Types::Peer]
+    attribute :peers_connected, 'peersConnected'
+    attribute :peers_from, 'peersFrom', :type => RTransmission::Types::PeersFrom
+    attribute :peers_getting_from_us, 'peersGettingFromUs'
+    attribute :peers_sending_to_us, 'peersSendingToUs'
+    attribute :percent_done, 'percentDone', :type => RTransmission::Types::Percent
+    attribute :pieces, 'pieces', :type => RTransmission::Types::Pieces
+    attribute :piece_count, 'pieceCount'
+    attribute :piece_size, 'pieceSize'
+    attribute :priorities, 'priorities', :type => [RTransmission::Types::Priority]
+    attribute :rate_download, 'rateDownload'
+    attribute :rate_upload, 'rateUpload'
+    attribute :recheck_progress, 'recheckProgress', :type => RTransmission::Types::Percent
+    attribute :seconds_downloading, 'secondsDownloading'
+    attribute :seconds_seeding, 'secondsSeeding'
+    attribute :seed_idle_limit, 'seedIdleLimit', :writeable => true
+    attribute :seed_idle_mode, 'seedIdleMode', :type => RTransmission::Types::SeedIdleMode, :writeable => true
+    attribute :seed_ratio_limit, 'seedRatioLimit', :type => RTransmission::Types::Percent, :writeable => true
+    attribute :seed_ratio_mode, 'seedRatioMode', :type => RTransmission::Types::SeedRatioMode, :writeable => true
+    attribute :size_when_done, 'sizeWhenDone'
+    attribute :start_date, 'startDate', :type => RTransmission::Types::Time
+    attribute :status, 'status', :type => RTransmission::Types::Status
+    attribute :trackers, 'trackers', :type => [RTransmission::Types::Tracker]
+    attribute :tracker_stats, 'trackerStats', :type => [RTransmission::Types::TrackerStat]
+    attribute :total_size, 'totalSize'
+    attribute :torrent_file, 'torrentFile'
+    attribute :uploaded_ever, 'uploadedEver'
+    attribute :upload_limit, 'uploadLimit', :writeable => true
+    attribute :upload_limited?, 'uploadLimited', :writeable => true
+    attribute :upload_ratio, 'uploadRatio', :type => RTransmission::Types::Percent
+    attribute :wanted, 'wanted'
+    attribute :webseeds, 'webseeds' # FIXME: add type
+    attribute :webseeds_sending_to_us, 'webseedsSendingToUs'
 
     def initialize(session, id)
       @session = session

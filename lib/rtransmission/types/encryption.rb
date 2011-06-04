@@ -3,16 +3,14 @@
 # Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
 
 module RTransmission
-  module Fields
-    class SeedIdleMode
-      MAP = {0 => :global, 1 => :single, 2 => :unlimited}
-
+  module Types
+    class Encryption < RTransmission::Type
       def self.unmap(value)
-        MAP[value]
+        value.to_sym
       end
 
       def self.map(value)
-        MAP.key(value)
+        value.to_s
       end
     end
   end

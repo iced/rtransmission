@@ -3,10 +3,10 @@
 # Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
 
 module RTransmission
-  module Fields
-    class Pieces
+  module Types
+    class Time < RTransmission::Type
       def self.unmap(value)
-        value
+        value == 0 ? nil : ::Time.at(value)
       end
     end
   end

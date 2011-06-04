@@ -3,13 +3,16 @@
 # Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
 
 module RTransmission
-  module Fields
-    class ETA
-      MAP = {-1 => :not_available, -2 => :unknown}
+  module Types
+    class SeedRatioMode < RTransmission::Type
+      MAP = {0 => :global, 1 => :single, 2 => :unlimited}
 
       def self.unmap(value)
-        return value if value >= 0
         MAP[value]
+      end
+
+      def self.map(value)
+        MAP.key(value)
       end
     end
   end

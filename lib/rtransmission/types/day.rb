@@ -3,8 +3,8 @@
 # Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
 
 module RTransmission
-  module Fields
-    class Day
+  module Types
+    class Day < RTransmission::Type
       MAP = {1 => :sunday, 2 => :monday, 4 => :tuesday, 8 => :wednesday, 16 => :thursday, 32 => :friday, 64 => :saturday}
 
       def self.unmap(value)

@@ -3,8 +3,8 @@
 # Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
 
 module RTransmission
-  module Fields
-    class Percent
+  module Types
+    class Percent < RTransmission::Type
       def self.unmap(value)
         value
       end

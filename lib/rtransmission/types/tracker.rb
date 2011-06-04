@@ -3,16 +3,15 @@
 # Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
 
 module RTransmission
-  module Fields
-    class Priority
-      MAP = {-1 => :low, 0 => :normal, 1 => :high}
+  module Types
+    class Tracker < RTransmission::Type
+      attribute :id, 'id'
+      attribute :announce, 'announce'
+      attribute :scrape, 'scrape'
+      attribute :tier, 'tier'
 
       def self.unmap(value)
-        MAP[value]
-      end
-
-      def self.map(value)
-        MAP.key(value)
+        RTransmission::Types::Tracker.new(value)
       end
     end
   end

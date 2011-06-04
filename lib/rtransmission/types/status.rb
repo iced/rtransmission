@@ -3,8 +3,8 @@
 # Use of this source code is governed by a BSD-style license that can be found in the COPYING file.
 
 module RTransmission
-  module Fields
-    class Status
+  module Types
+    class Status < RTransmission::Type
       MAP = {1 => :check_wait, 2 => :check, 4 => :download, 8 => :seed, 16 => :stopped}
 
       def self.unmap(value)
