@@ -5,12 +5,12 @@
 module RTransmission
   module Types
     class PeersFrom < RTransmission::Type
-      attribute :cache, 'fromCache'
-      attribute :dht, 'fromDht'
-      attribute :incoming, 'fromIncoming'
-      attribute :ltep, 'fromLtep'
-      attribute :pex, 'fromPex'
-      attribute :tracker, 'fromTracker'
+      attribute 'fromCache', :name => :cache
+      attribute 'fromDht', :name => :dht
+      attribute 'fromIncoming', :name => :incoming
+      attribute 'fromLtep', :name => :ltep
+      attribute 'fromPex', :name => :pex
+      attribute 'fromTracker', :name => :tracker
 
       def self.unmap(value)
         RTransmission::Types::PeersFrom.new(value)

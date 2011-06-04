@@ -23,6 +23,17 @@ module RTransmission
       session
     end
 
+    def self.rpc_name_to_ruby_name(rpc_name)
+      name = nil
+      if rpc_name.index('-')
+        name = rpc_name.gsub('-', '_')
+      else
+        name = rpc_name.gsub(/[A-Z]/) { |x| '_' + x.downcase }
+      end
+
+      name
+    end
+
     def initialize(args = {})
       @host = args[:host] || 'localhost'
       @port = args[:port] || 9091

@@ -5,11 +5,11 @@
 module RTransmission
   module Types
     class TrafficStats < RTransmission::Type
-      attribute :uploaded_bytes, 'uploadedBytes'
-      attribute :downloaded_bytes, 'downloadedBytes'
-      attribute :files_added, 'filesAdded'
-      attribute :session_count, 'sessionCount'
-      attribute :seconds_active, 'secondsActive'
+      attribute 'uploadedBytes'
+      attribute 'downloadedBytes'
+      attribute 'filesAdded'
+      attribute 'sessionCount'
+      attribute 'secondsActive'
 
       def self.unmap(value)
         RTransmission::Types::TrafficStats.new(value)

@@ -45,7 +45,9 @@ module RTransmission
       session.client.call(request)
     end
 
-    def self.attribute(name, rpc_name, args = {})
+    def self.attribute(rpc_name, args = {})
+      name = args[:name] || RTransmission::Client.rpc_name_to_ruby_name(rpc_name)
+
       self.send :define_method, name.to_s do
         request = RTransmission::Request.new('torrent-get', {'ids' => @id, 'fields' => [rpc_name]}, 'Torrent.' + name.to_s) do |arguments|
           value = arguments['torrents'][0][rpc_name]
@@ -67,70 +69,70 @@ module RTransmission
       end
     end
 
-    attribute :activity_date, 'activityDate', :type => :time
-    attribute :added_date, 'addedDate', :type => :time
-    attribute :bandwidth_priority, 'bandwidthPriority', :type => :priority, :writeable => true
-    attribute :comment, 'comment'
-    attribute :corrupt_ever, 'corruptEver'
-    attribute :creator, 'creator'
-    attribute :date_created, 'dateCreated', :type => :time
-    attribute :desired_available, 'desiredAvailable'
-    attribute :done_date, 'doneDate', :type => :time
-    attribute :download_dir, 'downloadDir'
-    attribute :downloaded_ever, 'downloadedEver'
-    attribute :download_limit, 'downloadLimit', :writeable => true
-    attribute :download_limited?, 'downloadLimited', :writeable => true
-    attribute :error, 'error', :type => :error
-    attribute :error_string, 'errorString'
-    attribute :eta, 'eta', :type => :eta
-    attribute :files, 'files', :type => [:file]
-    attribute :file_stats, 'fileStats', :type => [:file_stat]
-    attribute :hash_string, 'hashString'
-    attribute :have_unchecked, 'haveUnchecked'
-    attribute :have_valid, 'haveValid'
-    attribute :honors_session_limits?, 'honorsSessionLimits', :writeable => true
-    attribute :finished?, 'isFinished'
-    attribute :private?, 'isPrivate'
-    attribute :left_until_done, 'leftUntilDone'
-    attribute :magnet_link, 'magnetLink'
-    attribute :manual_announce_time, 'manualAnnounceTime' # FIXME: add type
-    attribute :max_connected_peers, 'maxConnectedPeers'
-    attribute :metadata_percent_complete, 'metadataPercentComplete'
-    attribute :name, 'name'
-    attribute :peer_limit, 'peer-limit', :writeable => true
-    attribute :peers, 'peers', :type => [:peer]
-    attribute :peers_connected, 'peersConnected'
-    attribute :peers_from, 'peersFrom', :type => :peers_from
-    attribute :peers_getting_from_us, 'peersGettingFromUs'
-    attribute :peers_sending_to_us, 'peersSendingToUs'
-    attribute :percent_done, 'percentDone', :type => :percent
-    attribute :pieces, 'pieces', :type => :pieces
-    attribute :piece_count, 'pieceCount'
-    attribute :piece_size, 'pieceSize'
-    attribute :priorities, 'priorities', :type => [:priority]
-    attribute :rate_download, 'rateDownload'
-    attribute :rate_upload, 'rateUpload'
-    attribute :recheck_progress, 'recheckProgress', :type => :percent
-    attribute :seconds_downloading, 'secondsDownloading'
-    attribute :seconds_seeding, 'secondsSeeding'
-    attribute :seed_idle_limit, 'seedIdleLimit', :writeable => true
-    attribute :seed_idle_mode, 'seedIdleMode', :type => :seed_idle_mode, :writeable => true
-    attribute :seed_ratio_limit, 'seedRatioLimit', :type => :percent, :writeable => true
-    attribute :seed_ratio_mode, 'seedRatioMode', :type => :seed_ratio_mode, :writeable => true
-    attribute :size_when_done, 'sizeWhenDone'
-    attribute :start_date, 'startDate', :type => :time
-    attribute :status, 'status', :type => :status
-    attribute :trackers, 'trackers', :type => [:tracker]
-    attribute :tracker_stats, 'trackerStats', :type => [:tracker_stat]
-    attribute :total_size, 'totalSize'
-    attribute :torrent_file, 'torrentFile'
-    attribute :uploaded_ever, 'uploadedEver'
-    attribute :upload_limit, 'uploadLimit', :writeable => true
-    attribute :upload_limited?, 'uploadLimited', :writeable => true
-    attribute :upload_ratio, 'uploadRatio', :type => :percent
-    attribute :wanted, 'wanted'
-    attribute :webseeds, 'webseeds' # FIXME: add type
-    attribute :webseeds_sending_to_us, 'webseedsSendingToUs'
+    attribute 'activityDate', :type => :time
+    attribute 'addedDate', :type => :time
+    attribute 'bandwidthPriority', :type => :priority, :writeable => true
+    attribute 'comment'
+    attribute 'corruptEver'
+    attribute 'creator'
+    attribute 'dateCreated', :type => :time
+    attribute 'desiredAvailable'
+    attribute 'doneDate', :type => :time
+    attribute 'downloadDir'
+    attribute 'downloadedEver'
+    attribute 'downloadLimit', :writeable => true
+    attribute 'downloadLimited', :name => :download_limited?, :writeable => true
+    attribute 'error', :type => :error
+    attribute 'errorString'
+    attribute 'eta', :type => :eta
+    attribute 'files', :type => [:file]
+    attribute 'fileStats', :type => [:file_stat]
+    attribute 'hashString'
+    attribute 'haveUnchecked'
+    attribute 'haveValid'
+    attribute 'honorsSessionLimits', :name => :honors_session_limits?, :writeable => true
+    attribute 'isFinished', :name => :finished?
+    attribute 'isPrivate', :name => :private?
+    attribute 'leftUntilDone'
+    attribute 'magnetLink'
+    attribute 'manualAnnounceTime' # FIXME: add type
+    attribute 'maxConnectedPeers'
+    attribute 'metadataPercentComplete'
+    attribute 'name'
+    attribute 'peer-limit', :writeable => true
+    attribute 'peers', :type => [:peer]
+    attribute 'peersConnected'
+    attribute 'peersFrom', :type => :peers_from
+    attribute 'peersGettingFromUs'
+    attribute 'peersSendingToUs'
+    attribute 'percentDone'
+    attribute 'pieces', :type => :pieces
+    attribute 'pieceCount'
+    attribute 'pieceSize'
+    attribute 'priorities', :type => [:priority]
+    attribute 'rateDownload'
+    attribute 'rateUpload'
+    attribute 'recheckProgress'
+    attribute 'secondsDownloading'
+    attribute 'secondsSeeding'
+    attribute 'seedIdleLimit', :writeable => true
+    attribute 'seedIdleMode', :type => :seed_idle_mode, :writeable => true
+    attribute 'seedRatioLimit', :writeable => true
+    attribute 'seedRatioMode', :type => :seed_ratio_mode, :writeable => true
+    attribute 'sizeWhenDone'
+    attribute 'startDate', :type => :time
+    attribute 'status', :type => :status
+    attribute 'trackers', :type => [:tracker]
+    attribute 'trackerStats', :type => [:tracker_stat]
+    attribute 'totalSize'
+    attribute 'torrentFile'
+    attribute 'uploadedEver'
+    attribute 'uploadLimit', :writeable => true
+    attribute 'uploadLimited', :name => :upload_limited?, :writeable => true
+    attribute 'uploadRatio'
+    attribute 'wanted'
+    attribute 'webseeds' # FIXME: add type
+    attribute 'webseedsSendingToUs'
 
     def initialize(session, id)
       @session = session

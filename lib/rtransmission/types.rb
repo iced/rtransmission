@@ -4,7 +4,6 @@
 
 require 'rtransmission/types/error'
 require 'rtransmission/types/eta'
-require 'rtransmission/types/percent'
 require 'rtransmission/types/priority'
 require 'rtransmission/types/time'
 require 'rtransmission/types/file'

@@ -40,7 +40,9 @@ module RTransmission
       value 
     end
 
-    def self.attribute(name, rpc_name, args = {})
+    def self.attribute(rpc_name, args = {})
+      name = args[:name] || RTransmission::Client.rpc_name_to_ruby_name(rpc_name)
+        
       self.send :define_method, name.to_s do
         RTransmission::Type.unmap(@hash[rpc_name], args[:type])
       end

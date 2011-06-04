@@ -6,7 +6,9 @@ module RTransmission
   class Session
     attr_reader :client
 
-    def self.attribute(name, rpc_name, args = {})
+    def self.attribute(rpc_name, args = {})
+      name = args[:name] || RTransmission::Client.rpc_name_to_ruby_name(rpc_name)
+
       self.send :define_method, name.to_s do
         request = RTransmission::Request.new('session-get', {}, 'Session.' + name.to_s) do |arguments|
           value = arguments[rpc_name]
@@ -28,49 +30,49 @@ module RTransmission
       end
     end
 
-    attribute :alt_speed_down, 'alt-speed-down', :writeable => true
-    attribute :alt_speed_enabled?, 'alt-speed-enabled', :writeable => true
-    attribute :alt_speed_time_begin, 'alt-speed-time-begin', :writeable => true
-    attribute :alt_speed_time_enabled?, 'alt-speed-time-enabled', :writeable => true
-    attribute :alt_speed_time_end, 'alt-speed-time-end', :writeable => true
-    attribute :alt_speed_time_day, 'alt-speed-time-day', :type => :day, :writeable => true
-    attribute :alt_speed_up, 'alt-speed-up', :writeable => true
-    attribute :blocklist_url, 'blocklist-url', :writeable => true
-    attribute :blocklist_enabled?, 'blocklist-enabled', :writeable => true
-    attribute :blocklist_size, 'blocklist-size'
-    attribute :cache_size_mb, 'cache-size-mb', :writeable => true
-    attribute :config_dir, 'config-dir'
-    attribute :download_dir, 'download-dir', :writeable => true
-    attribute :download_dir_free_space, 'download-dir-free-space'
-    attribute :dht_enabled?, 'dht-enabled', :writeable => true
-    attribute :encryption, 'encryption', :type => :encryption, :writeable => true
-    attribute :idle_seeding_limit, 'idle-seeding-limit', :writeable => true
-    attribute :idle_seeding_limit_enabled?, 'idle-seeding-limit-enabled', :writeable => true
-    attribute :incomplete_dir, 'incomplete-dir', :writeable => true
-    attribute :incomplete_dir_enabled?, 'incomplete-dir-enabled', :writeable => true
-    attribute :lpd_enabled?, 'lpd-enabled', :writeable => true
-    attribute :peer_limit_global, 'peer-limit-global', :writeable => true
-    attribute :peer_limit_per_torrent, 'peer-limit-per-torrent', :writeable => true
-    attribute :pex_enabled?, 'pex-enabled', :writeable => true
-    attribute :peer_port, 'peer-port', :writeable => true
-    attribute :peer_port_random_on_start?, 'peer-port-random-on-start', :writeable => true
-    attribute :port_forwarding_enabled?, 'port-forwarding-enabled', :writeable => true
-    attribute :rename_partial_files?, 'rename-partial-files', :writeable => true
-    attribute :rpc_version, 'rpc-version'
-    attribute :rpc_version_minimum, 'rpc-version-minimum'
-    attribute :script_torrent_done_filename, 'script-torrent-done-filename', :writeable => true
-    attribute :script_torrent_done_enabled?, 'script-torrent-done-enabled', :writeable => true
-    attribute :seed_ratio_limit, 'seedRatioLimit', :type => :percent, :writeable => true
-    attribute :seed_ratio_limited?, 'seedRatioLimited', :writeable => true
-    attribute :speed_limit_down, 'speed-limit-down', :writeable => true
-    attribute :speed_limit_down_enabled?, 'speed-limit-down-enabled', :writeable => true
-    attribute :speed_limit_up, 'speed-limit-up', :writeable => true
-    attribute :speed_limit_up_enabled?, 'speed-limit-up-enabled', :writeable => true
-    attribute :start_added_torrents?, 'start-added-torrents', :writeable => true
-    attribute :trash_original_torrent_files?, 'trash-original-torrent-files', :writeable => true
-    attribute :units, 'units' # FIXME: add type and writeable
-    attribute :utp_enabled?, 'utp-enabled', :writeable => true
-    attribute :version, 'version'
+    attribute 'alt-speed-down', :writeable => true
+    attribute 'alt-speed-enabled', :name => :alt_speed_enabled?, :writeable => true
+    attribute 'alt-speed-time-begin', :writeable => true
+    attribute 'alt-speed-time-enabled', :name => :alt_speed_time_enabled?, :writeable => true
+    attribute 'alt-speed-time-end', :writeable => true
+    attribute 'alt-speed-time-day', :type => :day, :writeable => true
+    attribute 'alt-speed-up', :writeable => true
+    attribute 'blocklist-url', :writeable => true
+    attribute 'blocklist-enabled', :name => :blocklist_enabled?, :writeable => true
+    attribute 'blocklist-size'
+    attribute 'cache-size-mb', :writeable => true
+    attribute 'config-dir'
+    attribute 'download-dir', :writeable => true
+    attribute 'download-dir-free-space'
+    attribute 'dht-enabled', :name => :dht_enabled?, :writeable => true
+    attribute 'encryption', :type => :encryption, :writeable => true
+    attribute 'idle-seeding-limit', :writeable => true
+    attribute 'idle-seeding-limit-enabled', :name => :idle_seeding_limit_enabled?, :writeable => true
+    attribute 'incomplete-dir', :writeable => true
+    attribute 'incomplete-dir-enabled', :name => :incomplete_dir_enabled?, :writeable => true
+    attribute 'lpd-enabled', :name => :lpd_enabled?, :writeable => true
+    attribute 'peer-limit-global', :writeable => true
+    attribute 'peer-limit-per-torrent', :writeable => true
+    attribute 'pex-enabled', :name => :pex_enabled?, :writeable => true
+    attribute 'peer-port', :writeable => true
+    attribute 'peer-port-random-on-start', :name => :peer_port_random_on_start?, :writeable => true
+    attribute 'port-forwarding-enabled', :name => :port_forwarding_enabled?, :writeable => true
+    attribute 'rename-partial-files', :name => :rename_partial_files?, :writeable => true
+    attribute 'rpc-version'
+    attribute 'rpc-version-minimum'
+    attribute 'script-torrent-done-filename', :writeable => true
+    attribute 'script-torrent-done-enabled', :name => :script_torrent_done_enabled?, :writeable => true
+    attribute 'seedRatioLimit', :writeable => true
+    attribute 'seedRatioLimited', :name => :seed_ratio_limited?, :writeable => true
+    attribute 'speed-limit-down', :writeable => true
+    attribute 'speed-limit-down-enabled', :name => :speed_limit_down_enabled?, :writeable => true
+    attribute 'speed-limit-up', :writeable => true
+    attribute 'speed-limit-up-enabled', :name => :speed_limit_up_enabled?, :writeable => true
+    attribute 'start-added-torrents', :name => :start_added_torrents?, :writeable => true
+    attribute 'trash-original-torrent-files', :name => :trash_original_torrent_files?, :writeable => true
+    attribute 'units' # FIXME: add type and writeable
+    attribute 'utp-enabled', :name => :utp_enabled?, :writeable => true
+    attribute 'version'
 
     def initialize(client)
       @client = client

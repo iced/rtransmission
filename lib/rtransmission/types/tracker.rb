@@ -5,10 +5,10 @@
 module RTransmission
   module Types
     class Tracker < RTransmission::Type
-      attribute :id, 'id'
-      attribute :announce, 'announce'
-      attribute :scrape, 'scrape'
-      attribute :tier, 'tier'
+      attribute 'id'
+      attribute 'announce'
+      attribute 'scrape'
+      attribute 'tier'
 
       def self.unmap(value)
         RTransmission::Types::Tracker.new(value)

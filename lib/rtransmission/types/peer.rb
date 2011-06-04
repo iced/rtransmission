@@ -5,22 +5,22 @@
 module RTransmission
   module Types
     class Peer < RTransmission::Type
-      attribute :address, 'address'
-      attribute :client_choked?, 'clientIsChoked'
-      attribute :client_interested?, 'clientIsInterested'
-      attribute :client_name, 'clientName'
-      attribute :flag_str, 'flagStr'
-      attribute :downloading_from?, 'isDownloadingFrom'
-      attribute :encrypted?, 'isEncrypted'
-      attribute :incoming?, 'isIncoming'
-      attribute :utp?, 'isUTP'
-      attribute :uploading_to?, 'isUploadingTo'
-      attribute :peer_choked?, 'peerIsChoked'
-      attribute :peer_interested?, 'peerIsInterested'
-      attribute :port, 'port'
-      attribute :progress, 'progress', :type => :percent
-      attribute :rate_to_client, 'rateToClient'
-      attribute :rate_to_peer, 'rateToPeer'
+      attribute 'address'
+      attribute 'clientIsChoked', :name => :client_choked?
+      attribute 'clientIsInterested', :name => :client_interested?
+      attribute 'clientName'
+      attribute 'flagStr'
+      attribute 'isDownloadingFrom', :name => :downloading_from? 
+      attribute 'isEncrypted', :name => :encrypted?
+      attribute 'isIncoming', :name => :incoming?
+      attribute 'isUTP', :name => :utp?
+      attribute 'isUploadingTo', :name => :uploading_to?
+      attribute 'peerIsChoked', :name => :peer_choked?
+      attribute 'peerIsInterested', :name => :peer_interested?
+      attribute 'port'
+      attribute 'progress'
+      attribute 'rateToClient'
+      attribute 'rateToPeer'
 
       def self.unmap(value)
         RTransmission::Types::Peer.new(value)

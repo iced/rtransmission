@@ -5,9 +5,9 @@
 module RTransmission
   module Types
     class FileStat < RTransmission::Type
-      attribute :bytes_completed, 'bytesCompleted'
-      attribute :wanted?, 'wanted'
-      attribute :priority, 'priority', :type => :priority
+      attribute 'bytesCompleted'
+      attribute 'wanted', :name => :wanted?
+      attribute 'priority', :type => :priority
 
       def self.unmap(value)
         RTransmission::Types::FileStat.new(value)

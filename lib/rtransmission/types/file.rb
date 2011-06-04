@@ -5,9 +5,9 @@
 module RTransmission
   module Types
     class File < RTransmission::Type
-      attribute :name, 'name'
-      attribute :length, 'length'
-      attribute :bytes_completed, 'bytesCompleted'
+      attribute 'name'
+      attribute 'length'
+      attribute 'bytesCompleted'
 
       def self.unmap(value)
         RTransmission::Types::File.new(value)
