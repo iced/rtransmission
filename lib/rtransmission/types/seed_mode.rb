@@ -4,7 +4,7 @@
 
 module RTransmission
   module Types
-    class SeedRatioMode < RTransmission::Type
+    class SeedMode < RTransmission::Type
       MAP = {0 => :global, 1 => :single, 2 => :unlimited}
 
       def self.unmap(value)

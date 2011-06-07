@@ -114,9 +114,9 @@ module RTransmission
     attribute 'secondsDownloading'
     attribute 'secondsSeeding'
     attribute 'seedIdleLimit', :writeable => true
-    attribute 'seedIdleMode', :type => :seed_idle_mode, :writeable => true
+    attribute 'seedIdleMode', :type => :seed_mode, :writeable => true
     attribute 'seedRatioLimit', :writeable => true
-    attribute 'seedRatioMode', :type => :seed_ratio_mode, :writeable => true
+    attribute 'seedRatioMode', :type => :seed_mode, :writeable => true
     attribute 'sizeWhenDone'
     attribute 'startDate', :type => :time
     attribute 'status', :type => :status
