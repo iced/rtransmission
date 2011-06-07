@@ -4,9 +4,8 @@
 
 require 'base64'
 
-# FIXME: files-wanted/unwanted & prioriry-high/low/normal for both add and new torrents
+# FIXME: files-wanted/unwanted & prioriry-high/low/normal for new torrents
 # FIXME: add/remove/replace trackers
-# FIXME: location set support
 module RTransmission
   class Torrent
     attr_reader :id
@@ -86,7 +85,7 @@ module RTransmission
     attribute 'errorString'
     attribute 'eta', :type => :eta
     attribute 'files', :type => [:file]
-    attribute 'fileStats', :type => [:file_stat]
+    attribute 'fileStats', :name => :files_stats, :type => [:file_stat]
     attribute 'hashString'
     attribute 'haveUnchecked'
     attribute 'haveValid'
@@ -175,6 +174,47 @@ module RTransmission
       request = RTransmission::Request.new('torrent-get', {'ids' => @id, 'fields' => ['pieces']}, 'Torrent.pieces') do |arguments|
         pieces = arguments['torrents'][0]['pieces']
         Base64::decode64(pieces).unpack('B*')[0][0 .. piece_count - 1]
+      end
+
+      @session.client.call(request)
+    end
+
+    def priorities=(priorities)
+      phigh = []
+      pnormal = []
+      plow = []
+      0.upto(priorities.size - 1) do |i|
+        phigh << i if priorities[i] == :high
+        pnormal << i if priorities[i] == :normal
+        plow << i if priorities[i] == :low
+      end
+
+      pargs = {}
+      pargs.merge!({'priority-high' => phigh}) if phigh.size != 0
+      pargs.merge!({'priority-normal' => pnormal}) if pnormal.size != 0
+      pargs.merge!({'priority-low' => plow}) if plow.size != 0
+
+      request = RTransmission::Request.new('torrent-set', {'ids' => @id}.merge(pargs), 'Torrent.files_priorities=') do
+        priorities
+      end
+
+      @session.client.call(request)
+    end
+
+    def wanted=(wanted)
+      pwanted = []
+      punwanted = []
+      0.upto(wanted.size - 1) do |i|
+        pwanted << i if wanted[i]
+        punwanted << i unless wanted[i]
+      end
+
+      pargs = {}
+      pargs.merge!({'files-wanted' => pwanted}) if pwanted.size != 0
+      pargs.merge!({'files-unwanted' => punwanted}) if punwanted.size != 0
+
+      request = RTransmission::Request.new('torrent-set', {'ids' => @id}.merge(pargs), 'Torrent.wanted=') do
+        wanted
       end
 
       @session.client.call(request)
