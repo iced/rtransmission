@@ -5,7 +5,7 @@
 module RTransmission
   module VERSION
     MAJOR = 0
-    MINOR = 3
+    MINOR = 4
 
     STRING = [MAJOR, MINOR].join('.')
   end

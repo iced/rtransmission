@@ -121,7 +121,7 @@ module RTransmission
     attribute 'startDate', :type => :time
     attribute 'status', :type => :status
     attribute 'trackers', :type => [:tracker]
-    attribute 'trackerStats', :type => [:tracker_stat]
+    attribute 'trackerStats', :name => :trackers_stats, :type => [:tracker_stat]
     attribute 'totalSize'
     attribute 'torrentFile'
     attribute 'uploadedEver'

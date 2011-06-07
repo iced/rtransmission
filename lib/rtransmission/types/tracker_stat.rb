@@ -8,28 +8,28 @@ module RTransmission
     class TrackerStat < RTransmission::Type
       attribute 'id'
       attribute 'announce'
-      attribute 'announceState'
+      attribute 'announceState', :type => :tracker_state
       attribute 'downloadCount'
-      attribute 'hasAnnounced'
-      attribute 'hasScraped'
+      attribute 'hasAnnounced', :name => :announced?
+      attribute 'hasScraped', :name => :scraped?
       attribute 'host'
-      attribute 'isBackup'
+      attribute 'isBackup', :name => :backup?
       attribute 'lastAnnouncePeerCount'
       attribute 'lastAnnounceResult'
-      attribute 'lastAnnounceStartTime'
-      attribute 'lastAnnounceSucceeded'
-      attribute 'lastAnnounceTime'
-      attribute 'lastAnnounceTimedOut'
+      attribute 'lastAnnounceStartTime', :type => :time
+      attribute 'lastAnnounceSucceeded', :name => :last_announce_succeeded?
+      attribute 'lastAnnounceTime', :type => :time
+      attribute 'lastAnnounceTimedOut', :name => :last_announce_timed_out?
       attribute 'lastScrapeResult'
-      attribute 'lastScrapeStartTime'
-      attribute 'lastScrapeSucceeded'
-      attribute 'lastScrapeTime'
-      attribute 'lastScrapeTimedOut'
+      attribute 'lastScrapeStartTime', :type => :time
+      attribute 'lastScrapeSucceeded', :name => :last_scrape_succeeded?
+      attribute 'lastScrapeTime', :type => :time
+      attribute 'lastScrapeTimedOut', :name => :last_scrape_timed_out?
       attribute 'leecherCount'
-      attribute 'nextAnnounceTime'
-      attribute 'nextScrapeTime'
+      attribute 'nextAnnounceTime', :type => :time
+      attribute 'nextScrapeTime', :type => :time
       attribute 'scrape'
-      attribute 'scrapeState'
+      attribute 'scrapeState', :type => :tracker_state
       attribute 'seederCount'
       attribute 'tier'
 
